@@ -1,0 +1,101 @@
+softwarecarpentry.org git lesson
+
+
+$git config --help
+
+settings per machine
+$git config --list
+
+pwd, cd, mkdir ... use cmd line commands
+$ cd 'C:/Users/Jeremy Cooper/Desktop/planets'
+
+To create a REPO:
+$git init
+
+$ ls
+
+shows all files
+$ ls -a
+
+$git status
+
+from the dir you are currently in:
+ls - list files
+cat (name).txt - display body of file
+
+*****
+git add (name).txt - to track changes
+
+git commit -m "Start notes on Mars as a base"  
+- to record changes use git commit -m "message" !!!short but descriptive.
+
+
+Good commit messages start with a brief (<50 characters) 
+summary of changes made in the commit. 
+If you want to go into more detail, 
+add a blank line between the summary line and your additional notes.
+
+now run git status - everything should be up to date
+
+$git log - shows changes
+
+The last line is the key phrase: 
+“no changes added to commit”. 
+We have changed this file, 
+but we haven’t told Git we will 
+want to save those changes 
+(which we do with git add) nor 
+have we saved them (which we do with git commit). 
+So let’s do that now. 
+It is good practice to always review our changes 
+before saving them. We do this using git diff. 
+This shows us the differences between the 
+current state of the file and the most 
+recently saved version.
+
+after checking changes use
+$git add (name).txt and
+$git commit -m "....."
+
+If you think of Git as taking snapshots of 
+changes over the life of a project, git add 
+specifies what will go in a snapshot 
+(putting things in the staging area), 
+and git commit then actually takes the snapshot, 
+and makes a permanent record of it (as a commit).
+
+To get out of the pager, press q.
+To move to the next page, press the space bar.
+To search for some_word in all pages, 
+type /some_word and navigate throught matches pressing n.
+
+$ git diff HEAD(~1,2,3,...) mars.txt
+or 
+git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b mars.txt - from commit ID, use $git log
+
+$ git checkout HEAD (name).txt or
+$ git checkout f22b25e mars.txt - git checkout restores an old version of a file
+
+git log - # Look at the git history of the project to find the commit ID
+Copy the ID (the first few characters of the ID, e.g. 0b1d055).
+git revert [commit ID]
+Type in the new commit message.
+Save and close
+
+git log --patch (name).txt
+git log --patch HEAD~3 HEAD~1 *.txt
+
+save a 
+.gitignore file with files to ignore
+ls -a
+git status --ignored
+exceptions can be made!
+
+add to github: 
+$ git remote add origin https://github.com/(.....).git
+$ git remote -v
+$ git push origin master
+$ git pull origin master
+
+
+$git clone
