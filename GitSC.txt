@@ -1,4 +1,10 @@
 softwarecarpentry.org git lesson
+Quick:
+1. create dir locally
+2. git add
+3. git commit -m
+4. git add remote origin https.... (from github)
+5. git push origin master
 
 
 $git config --help
