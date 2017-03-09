@@ -129,5 +129,10 @@ $ git remote -v
 $ git push origin master
 $ git pull origin master
 
-
+**********
+When updating an existing file, treat just like any other change:
+$ git add <filename>
+$ git commit -m "....."
+$ git push origin master
+**********
 $git clone
