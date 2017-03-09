@@ -25,16 +25,21 @@ $ ls -a
 
 $git status
 
+to create a new text file (per your configuration editor choice):
+$start notepadd++ <filename>.txt
+
 from the dir you are currently in:
-ls - list files
-cat (name).txt - display body of file
+$ls - list files
+$cat (name).txt - display body of file
 
-*****
-git add (name).txt - to track changes
+$git add (name).txt - to track changes
 
-git commit -m "Start notes on Mars as a base"  
+$git status
+
+$git commit - if you hit enter, your text editor will pop up to add a comment
+or just do this:
+$git commit -m "Start notes on Mars as a base"  
 - to record changes use git commit -m "message" !!!short but descriptive.
-
 
 Good commit messages start with a brief (<50 characters) 
 summary of changes made in the commit. 
@@ -75,12 +80,31 @@ To move to the next page, press the space bar.
 To search for some_word in all pages, 
 type /some_word and navigate throught matches pressing n.
 
+see most recent commit:
+$ git log -1
+or
+$ git log --oneline
+or
+$ git log --oneline --graph --all --decorate
+
+*******
+You can refer to the most recent commit of the working directory by using the identifier HEAD.
+
 $ git diff HEAD(~1,2,3,...) mars.txt
 or 
-git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b mars.txt - from commit ID, use $git log
+$ git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b mars.txt - from commit ID, use $git log
+or 
+$ git diff --staged
+*********
+We could also use $ git show which shows us what 
+changes we made at an older commit as well 
+as the commit message, rather than the differences 
+between a commit and our working directory that we 
+see by using git diff.
 
 $ git checkout HEAD (name).txt or
 $ git checkout f22b25e mars.txt - git checkout restores an old version of a file
+$ git checkout -f master mars.txt - we can put things back the way they were with by using git checkout:
 
 git log - # Look at the git history of the project to find the commit ID
 Copy the ID (the first few characters of the ID, e.g. 0b1d055).
@@ -90,9 +114,11 @@ Save and close
 
 git log --patch (name).txt
 git log --patch HEAD~3 HEAD~1 *.txt
-
-save a 
-.gitignore file with files to ignore
+*********
+save a .gitignore.txt file with files to ignore
+$ git add .gitignore
+$ git commit -m "Add the ignore file"
+$ git statu
 ls -a
 git status --ignored
 exceptions can be made!
