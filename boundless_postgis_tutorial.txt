@@ -1,0 +1,132 @@
+http://workshops.boundlessgeo.com/postgis-intro/introduction.html
+
+Spatial databases store and manipulate spatial objects like any other object in the database.
+
+The following briefly covers the evolution of spatial databases, and then reviews three aspects 
+that associate spatial data with a database – data types, indexes, and functions:
+
+Spatial data types refer to shapes such as point, line, and polygon;
+Multi-dimensional spatial indexing is used for efficient processing of spatial operations;
+Spatial functions, posed in SQL, are for querying of spatial properties and relationships;
+
+A bounding box is the smallest rectangle – parallel to the coordinate axes – capable of containing a given feature.
+
+For manipulating data during a query, an ordinary database provides functions such as concatenating strings, performing hash operations on strings, 
+doing mathematics on numbers, and extracting information from dates. A spatial database provides a complete set of functions for analyzing geometric components, 
+determining spatial relationships, and manipulating geometries. These spatial functions serve as the building block for any spatial project.
+
+The majority of all spatial functions can be grouped into one of the following five categories:
+
+Conversion: Functions that convert between geometries and external data formats.
+Management: Functions that manage information about spatial tables and PostGIS administration.
+Retrieval: Functions that retrieve properties and measurements of a Geometry.
+Comparison: Functions that compare two geometries with respect to their spatial relation.
+Generation: Functions that generate new geometries from others.
+The list of possible functions is very large, but a common set of functions is defined by the OGC SFSQL and implemented 
+(along with additional useful functions) by PostGIS.
+
+***************************
+
+Create database (simple):
+rt-click > Databases in pgAdmin object browser > New Database
+-fill out necessary fields
+open SQL Query pane > CREATE EXTENSION postgis;
+check with SELECT postgis_full_version;
+
+****************************
+
+loading shapefiles:
+*make postgis extension actually was created
+
+click on pgShapeLoader application
+view connection details
+add files and use the correct settings *http://spatialreference.org/
+
+(You can see the definition of our workshop map projection by looking it up either in an online database,
+http://spatialreference.org/ref/epsg/26918/
+or directly inside PostGIS with a query to the spatial_ref_sys table.
+SELECT srtext FROM spatial_ref_sys WHERE srid = 26918;)
+assume local but look out for metadata that can point in the right direction
+“SRID” stands for “Spatial Reference IDentifier.”
+import
+refresh database
+http://prj2epsg.org/ - convert .prj file into SRID
+
+*****************************
+
+explore your data
+take your time here
+find out columns and what they represent
+data types
+missing values
+-9999 or null?
+do you have spatial and textual data?
+what type of geographic questions does it answer?
+
+**************************
+
+simple sql
+
+four “verbs” of SQL:
+SELECT, returns rows in response to a query
+INSERT, adds new rows to a table
+UPDATE, alters existing rows in a table
+DELETE, removes rows from a table
+
+(SELECT some_columns FROM some_data_source WHERE some_condition;)
+
+SELECT postgis_full_version();
+
+SELECT name FROM nyc_neighborhoods;
+
+SELECT name
+  FROM nyc_neighborhoods
+  WHERE boroname = 'Brooklyn'
+
+SELECT char_length(name) #function
+  FROM nyc_neighborhoods
+  WHERE boroname = 'Brooklyn';
+
+SELECT avg(char_length(name)), stddev(char_length(name)) #stat function
+  FROM nyc_neighborhoods
+  WHERE boroname = 'Brooklyn';
+
+SELECT boroname, avg(char_length(name)), stddev(char_length(name))
+  FROM nyc_neighborhoods
+  GROUP BY boroname;
+
+SELECT
+  boroname,
+  100 * Sum(popn_white)/Sum(popn_total) AS white_pct
+FROM nyc_census_blocks
+GROUP BY boroname;
+
+*************************
+
+CREATE TABLE geometries (name varchar, geom geometry);
+
+INSERT INTO geometries VALUES
+  ('Point', 'POINT(0 0)'),
+  ('Linestring', 'LINESTRING(0 0, 1 1, 2 1, 2 2)'),
+  ('Polygon', 'POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))'),
+  ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
+  ('Collection', 'GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))');
+
+SELECT name, ST_AsText(geom) FROM geometries;
+
+In conformance with the Simple Features for SQL (SFSQL) specification, PostGIS provides two tables to track and report on the geometry types available in a given database.
+
+The first table, spatial_ref_sys, defines all the spatial reference systems known to the database and will be described in greater detail later.
+The second table (actually, a view), geometry_columns, provides a listing of all “features” (defined as an object with geometric attributes), and the basic details of those features.
+
+SELECT * FROM geometry_columns;
+
+f_table_catalog, f_table_schema, and f_table_name provide the fully qualified name of the feature table containing a given geometry. Because PostgreSQL doesn’t make use of catalogs, f_table_catalog will tend to be empty.
+f_geometry_column is the name of the column that geometry containing column – for feature tables with multiple geometry columns, there will be one record for each.
+coord_dimension and srid define the the dimension of the geometry (2-, 3- or 4-dimensional) and the Spatial Reference system identifier that refers to the spatial_ref_sys table respectively.
+The type column defines the type of geometry as described below; we’ve seen Point and Linestring types so far.
+
+***see doc for geometry functions***
+
+
+
