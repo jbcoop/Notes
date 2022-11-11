@@ -25,8 +25,8 @@ $ ls -a
 
 $git status
 
-to create a new text file (per your configuration editor choice):
-$start notepadd++ <filename>.txt
+to create a new text file (VSCode):
+$code <filename>.txt (.py, etc...)
 
 from the dir you are currently in:
 $ls - list files
@@ -51,13 +51,13 @@ now run git status - everything should be up to date
 $git log - shows changes
 
 The last line is the key phrase: 
-ìno changes added to commitî. 
+‚Äúno changes added to commit‚Äù. 
 We have changed this file, 
-but we havenít told Git we will 
+but we haven‚Äôt told Git we will 
 want to save those changes 
 (which we do with git add) nor 
 have we saved them (which we do with git commit). 
-So letís do that now. 
+So let‚Äôs do that now. 
 It is good practice to always review our changes 
 before saving them. We do this using git diff. 
 This shows us the differences between the 
